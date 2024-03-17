@@ -41,16 +41,14 @@ exports.register = expressAsyncHandler((req, res) => {
             (err, token) => {
               if (err) throw err;
               res.json({
-                user: {
-                  id: user._id,
-                  email: user.email,
-                  username: user.username,
-                  phone: user.phone,
-                  university: user.university,
-                  role: user.role,
-                  balance: user.balance,
-                  token: generateToken(user._id),
-                },
+                id: user._id,
+                email: user.email,
+                username: user.username,
+                phone: user.phone,
+                university: user.university,
+                role: user.role,
+                balance: user.balance,
+                token: generateToken(user._id),
               });
             }
           );
