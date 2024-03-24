@@ -50,4 +50,21 @@ const getCategories = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createCategory, getCategories };
+const getCategoriesForUsers = expressAsyncHandler(async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const restData = await Category.find({ user: userId });
+    console.log(restData, "lk");
+    if (restData) {
+      res.status(200).json(restData);
+    } else {
+      res.status(400).json({
+        message: "Error occured",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+module.exports = { createCategory, getCategories, getCategoriesForUsers };

@@ -56,5 +56,47 @@ const getFilteredRestaurantsByCategory = expressAsyncHandler(
     }
   }
 );
+const getRestaurantsForUsers = expressAsyncHandler(async (req, res) => {
+  console.log("lodhe");
+  try {
+    const { userId } = req.query;
+    const restData = await Restaurant.find({ user: userId });
+    console.log(restData, "lk");
+    if (restData) {
+      res.status(200).json(restData);
+    } else {
+      res.status(400).json({
+        message: "Error occured",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+});
 
-module.exports = { createRestaurant, getFilteredRestaurantsByCategory };
+//update meal availability to true or false
+const updateMealAvailability = expressAsyncHandler(async (req, res) => {
+  try {
+    const { available, mealId } = req.query;
+    if (!available || !mealId) {
+      return res.status(400).json({ message: "Please fill in all fieldssss." });
+    }
+    const meal = await Restaurant.findByIdAndUpdate(
+      mealId,
+      { available },
+      { new: true }
+    );
+    res.status(200).json(meal);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "It's us not you" });
+  }
+});
+
+module.exports = {
+  createRestaurant,
+  getFilteredRestaurantsByCategory,
+  getRestaurantsForUsers,
+  updateMealAvailability,
+};

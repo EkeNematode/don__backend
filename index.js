@@ -18,6 +18,7 @@ app.get("/", (req, res) => {
 app.use("/auth", require("./routes/userRoutes"));
 app.use("/restaurant", require("./routes/restaurantRoutes"));
 app.use("/category", require("./routes/categoriesRoutes"));
+app.use("/order", require("./routes/orderRoutes"));
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

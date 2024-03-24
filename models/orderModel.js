@@ -2,29 +2,59 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
-    orders: [
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Auth",
+      required: [true, "Please add a user"],
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    userphone: {
+      type: String,
+      required: true,
+    },
+    useruniversity: {
+      type: String,
+      required: true,
+    },
+    vendorId: {
+      type: String,
+      required: true,
+    },
+    food: [
       {
-        restaurantFood: [
-          {
-            restaurant: { type: mongoose.Types.ObjectId, ref: "Restaurant" },
-            quantity: Number,
-          },
-        ],
+        name: {
+          type: String,
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        image: {
+          type: String,
+          required: true,
+        },
       },
     ],
-    amountToPay: Number,
-    completed: { type: Boolean, default: false },
+    total: {
+      type: Number,
+      required: true,
+    },
     status: {
       type: String,
-      default: "pending",
-      enum: ["pending", "accepted", "assigned", "completed", "cancelled"],
+      default: "New",
     },
-    user: {
-      name: String,
-      phoneNumber: String,
-      hostelAddress: String,
+    dispatchRider: {
+      type: String,
+      default: "",
     },
-    deliveryPerson: String,
   },
   { timestamps: true }
 );

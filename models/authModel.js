@@ -29,6 +29,25 @@ const authSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    deliveryTime: {
+      type: String,
+    },
+    restaurantBackgroundImage: {
+      type: String,
+      // default: "",
+    },
+    restaurantMainImage: {
+      type: String,
+      // default: "",
+    },
+    restaurantName: {
+      type: String,
+      // default: "",
+    },
+    available: {
+      type: Boolean,
+      default: true,
+    },
     password: {
       type: String,
       required: true,

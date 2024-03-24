@@ -64,6 +64,7 @@ exports.register = expressAsyncHandler((req, res) => {
 exports.login = async (req, res) => {
   try {
     const { phone, password } = req.body;
+    console.log("clicked");
 
     // validate
     if (!phone || !password) {
@@ -88,7 +89,6 @@ exports.login = async (req, res) => {
       username: user.username,
       phone: user.phone,
       role: user.role,
-      ReadableStreamBYOBReader: user.ReadableStreamBYOBReader,
       university: user.university,
       balance: user.balance,
       token: generateToken(user._id),
@@ -100,7 +100,8 @@ exports.login = async (req, res) => {
 
 exports.getFilteredUserByRole = expressAsyncHandler(async (req, res) => {
   try {
-    const { role } = req.query;
+    console.log("clicker");
+    const role = "vendor";
     const userData = await Auth.find({ role: role });
 
     if (!role) {
@@ -110,6 +111,120 @@ exports.getFilteredUserByRole = expressAsyncHandler(async (req, res) => {
 
     if (userData) {
       res.status(200).json(userData);
+    } else {
+      res.status(400).json({
+        message: "Error occured",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//update balamce of user
+exports.updateBalance = expressAsyncHandler(async (req, res) => {
+  try {
+    const { balance } = req.body;
+    const user = await req.user;
+    console.log(user);
+    if (!balance) {
+      res.status(400).json({ message: "Please fill in all fields." });
+    }
+    //balance to number
+    const balanceToNumber = await parseInt(balance);
+    const addBalance = (await user.balance) + balanceToNumber;
+    const updatedBalance = await Auth.findByIdAndUpdate(
+      user._id,
+      { balance: addBalance },
+      { new: true }
+    );
+    if (updatedBalance) {
+      res.status(200).json({
+        id: updatedBalance._id,
+        email: updatedBalance.email,
+        username: updatedBalance.username,
+        phone: updatedBalance.phone,
+        role: updatedBalance.role,
+        university: updatedBalance.university,
+        balance: updatedBalance.balance,
+        token: generateToken(updatedBalance._id),
+      });
+    } else {
+      res.status(400).json({
+        message: "Error occured",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// deduct balance of user
+exports.deductBalance = expressAsyncHandler(async (req, res) => {
+  try {
+    const { balance } = req.body;
+    const user = await req.user;
+    console.log(user);
+    if (!balance) {
+      res.status(400).json({ message: "Please fill in all fields." });
+    }
+    //balance to number
+    const balanceToNumber = parseInt(balance);
+    if (balanceToNumber > user.balance) {
+      res.status(400).json({ message: "Insufficient balance" });
+    } else {
+      const deductBalance = (await user.balance) - balanceToNumber;
+      const updatedBalance = await Auth.findByIdAndUpdate(
+        user._id,
+        { balance: deductBalance },
+        { new: true }
+      );
+      if (updatedBalance) {
+        res.status(200).json({
+          id: updatedBalance._id,
+          email: updatedBalance.email,
+          username: updatedBalance.username,
+          phone: updatedBalance.phone,
+          role: updatedBalance.role,
+          university: updatedBalance.university,
+          balance: updatedBalance.balance,
+          token: generateToken(updatedBalance._id),
+        });
+      } else {
+        res.status(400).json({
+          message: "Error occured",
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+exports.updateVendorAvailability = expressAsyncHandler(async (req, res) => {
+  try {
+    const { available } = req.query;
+    const user = await req.user;
+    if (!available) {
+      res.status(400).json({ message: "Please fill in all fields." });
+    }
+    const updatedAvailability = await Auth.findByIdAndUpdate(
+      user._id,
+      { available: available },
+      { new: true }
+    );
+    if (updatedAvailability) {
+      res.status(200).json({
+        id: updatedAvailability._id,
+        email: updatedAvailability.email,
+        username: updatedAvailability.username,
+        phone: updatedAvailability.phone,
+        role: updatedAvailability.role,
+        university: updatedAvailability.university,
+        balance: updatedAvailability.balance,
+        available: updatedAvailability.available,
+        token: generateToken(updatedAvailability._id),
+      });
     } else {
       res.status(400).json({
         message: "Error occured",
