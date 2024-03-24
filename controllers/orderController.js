@@ -18,7 +18,11 @@ const createOrder = expressAsyncHandler(async (req, res) => {
     ) {
       return res.status(400).json({ message: "Please fill in all fields." });
     } else {
-      // deduct total from user balance
+      //update vendor account
+      const vendor = await Auth.findById(vendorId);
+      const vendorBalance = vendor.balance;
+      const newBalance = vendorBalance + total;
+      await Auth.findByIdAndUpdate(vendorId, { balance: newBalance });
       const newOrder = new Model({
         user: user.id,
         vendorId,
@@ -73,7 +77,8 @@ const getOrderForCLients = expressAsyncHandler(async (req, res) => {
 //update order status
 const updateOrderStatus = expressAsyncHandler(async (req, res) => {
   try {
-    const { status, orderId } = req.body;
+    const { status, orderId } = req.query;
+    console.log(status, orderId);
     if (!status || !orderId) {
       return res.status(400).json({ message: "Please fill in all fields." });
     }
@@ -84,6 +89,7 @@ const updateOrderStatus = expressAsyncHandler(async (req, res) => {
     );
     res.status(200).json(order);
   } catch (error) {
+    console.log("It's us not you");
     res.status(500).json({ message: "It's us not you" });
   }
 });

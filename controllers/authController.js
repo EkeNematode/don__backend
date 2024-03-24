@@ -34,24 +34,19 @@ exports.register = expressAsyncHandler((req, res) => {
         });
 
         newUser.save().then((user) => {
-          jwt.sign(
-            { id: user._id },
-            process.env.JWT_SECRET,
-            { expiresIn: 3600 },
-            (err, token) => {
-              if (err) throw err;
-              res.json({
-                id: user._id,
-                email: user.email,
-                username: user.username,
-                phone: user.phone,
-                university: user.university,
-                role: user.role,
-                balance: user.balance,
-                token: generateToken(user._id),
-              });
-            }
-          );
+          res.json({
+            id: user._id,
+            email: user.email,
+            username: user.username,
+            phone: user.phone,
+            university: user.university,
+            role: user.role,
+            balance: user.balance,
+            restaurantName: user.restaurantName,
+            restaurantMainImage: user.restaurantMainImage,
+            restaurantBackgroundImage: user.restaurantBackgroundImage,
+            token: generateToken(user._id),
+          });
         });
       });
     });
@@ -91,6 +86,9 @@ exports.login = async (req, res) => {
       role: user.role,
       university: user.university,
       balance: user.balance,
+      restaurantName: user.restaurantName,
+      restaurantMainImage: user.restaurantMainImage,
+      restaurantBackgroundImage: user.restaurantBackgroundImage,
       token: generateToken(user._id),
     });
   } catch (err) {
@@ -147,6 +145,9 @@ exports.updateBalance = expressAsyncHandler(async (req, res) => {
         role: updatedBalance.role,
         university: updatedBalance.university,
         balance: updatedBalance.balance,
+        restaurantName: updatedBalance.restaurantName,
+        restaurantMainImage: updatedBalance.restaurantMainImage,
+        restaurantBackgroundImage: updatedBalance.restaurantBackgroundImage,
         token: generateToken(updatedBalance._id),
       });
     } else {
@@ -188,6 +189,9 @@ exports.deductBalance = expressAsyncHandler(async (req, res) => {
           role: updatedBalance.role,
           university: updatedBalance.university,
           balance: updatedBalance.balance,
+          restaurantName: updatedBalance.restaurantName,
+          restaurantMainImage: updatedBalance.restaurantMainImage,
+          restaurantBackgroundImage: updatedBalance.restaurantBackgroundImage,
           token: generateToken(updatedBalance._id),
         });
       } else {
@@ -223,6 +227,10 @@ exports.updateVendorAvailability = expressAsyncHandler(async (req, res) => {
         university: updatedAvailability.university,
         balance: updatedAvailability.balance,
         available: updatedAvailability.available,
+        restaurantName: updatedAvailability.restaurantName,
+        restaurantMainImage: updatedAvailability.restaurantMainImage,
+        restaurantBackgroundImage:
+          updatedAvailability.restaurantBackgroundImage,
         token: generateToken(updatedAvailability._id),
       });
     } else {

@@ -50,7 +50,20 @@ router.patch(
         { new: true }
       );
       if (updateImage) {
-        res.status(200).json(updateImage);
+        res.status(200).json({
+          id: updateImage._id,
+          email: updateImage.email,
+          username: updateImage.username,
+          phone: updateImage.phone,
+          role: updateImage.role,
+          university: updateImage.university,
+          balance: updateImage.balance,
+          available: updateImage.available,
+          restaurantName: updateImage.restaurantName,
+          restaurantMainImage: updateImage.restaurantMainImage,
+          restaurantBackgroundImage: updateImage.restaurantBackgroundImage,
+          token: generateToken(updateImage._id),
+        });
       } else {
         res.status(400).json({
           message: "Error occured",
