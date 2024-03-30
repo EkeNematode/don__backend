@@ -23,6 +23,10 @@ const createOrder = expressAsyncHandler(async (req, res) => {
       const vendorBalance = vendor.balance;
       const newBalance = vendorBalance + total;
       await Auth.findByIdAndUpdate(vendorId, { balance: newBalance });
+      // update user account
+      // const userBalance = user.balance;
+      // const newUserBalance = userBalance - total;
+      // await Auth.findByIdAndUpdate(user.id, { balance: newUserBalance });
       const newOrder = new Model({
         user: user.id,
         vendorId,

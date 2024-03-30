@@ -16,7 +16,9 @@ exports.register = expressAsyncHandler((req, res) => {
     // check for existing user
     Auth.findOne({ phone: phone }).then((user) => {
       if (user) {
-        return res.status(400).json({ message: "User already exists." });
+        return res
+          .status(400)
+          .json({ message: `User already exists as a ${user.role}.` });
       }
     });
 
@@ -42,6 +44,7 @@ exports.register = expressAsyncHandler((req, res) => {
             university: user.university,
             role: user.role,
             balance: user.balance,
+            available: user.available,
             restaurantName: user.restaurantName,
             restaurantMainImage: user.restaurantMainImage,
             restaurantBackgroundImage: user.restaurantBackgroundImage,
@@ -86,6 +89,7 @@ exports.login = async (req, res) => {
       role: user.role,
       university: user.university,
       balance: user.balance,
+      available: user.available,
       restaurantName: user.restaurantName,
       restaurantMainImage: user.restaurantMainImage,
       restaurantBackgroundImage: user.restaurantBackgroundImage,
@@ -144,6 +148,7 @@ exports.updateBalance = expressAsyncHandler(async (req, res) => {
         phone: updatedBalance.phone,
         role: updatedBalance.role,
         university: updatedBalance.university,
+        available: user.available,
         balance: updatedBalance.balance,
         restaurantName: updatedBalance.restaurantName,
         restaurantMainImage: updatedBalance.restaurantMainImage,
@@ -187,6 +192,7 @@ exports.deductBalance = expressAsyncHandler(async (req, res) => {
           username: updatedBalance.username,
           phone: updatedBalance.phone,
           role: updatedBalance.role,
+          available: user.available,
           university: updatedBalance.university,
           balance: updatedBalance.balance,
           restaurantName: updatedBalance.restaurantName,
@@ -208,6 +214,7 @@ exports.deductBalance = expressAsyncHandler(async (req, res) => {
 exports.updateVendorAvailability = expressAsyncHandler(async (req, res) => {
   try {
     const { available } = req.query;
+    console.log(available);
     const user = await req.user;
     if (!available) {
       res.status(400).json({ message: "Please fill in all fields." });
@@ -234,11 +241,13 @@ exports.updateVendorAvailability = expressAsyncHandler(async (req, res) => {
         token: generateToken(updatedAvailability._id),
       });
     } else {
+      console.log("error");
       res.status(400).json({
         message: "Error occured",
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 });
