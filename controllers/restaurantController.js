@@ -26,8 +26,7 @@ const createRestaurant = expressAsyncHandler(async (req, res) => {
     });
     newRestaurant.save().then((restaurant) => {
       res.json({
-        user: restaurant.user,
-        id: restaurant._id,
+        _id: restaurant._id,
         name: restaurant.name,
         price: restaurant.price,
         image: restaurant.image,
@@ -79,6 +78,7 @@ const getRestaurantsForUsers = expressAsyncHandler(async (req, res) => {
 const updateMealAvailability = expressAsyncHandler(async (req, res) => {
   try {
     const { available, mealId } = req.query;
+    console.log("mealId", mealId);
     if (!available || !mealId) {
       return res.status(400).json({ message: "Please fill in all fieldssss." });
     }

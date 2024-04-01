@@ -66,8 +66,8 @@ router.post(
       });
       newRestaurant.save().then((restaurant) => {
         res.json({
-          user: restaurant.user,
-          id: restaurant._id,
+          // user: restaurant.user,
+          _id: restaurant._id,
           name: restaurant.name,
           price: restaurant.price,
           category: restaurant.category,
