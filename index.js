@@ -19,7 +19,8 @@ app.use("/auth", require("./routes/userRoutes"));
 app.use("/restaurant", require("./routes/restaurantRoutes"));
 app.use("/category", require("./routes/categoriesRoutes"));
 app.use("/order", require("./routes/orderRoutes"));
+app.use("/pay", require("./routes/paymentRoutes"));
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
 });
