@@ -22,6 +22,10 @@ const paymentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    accountName: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       default: "Pending",
