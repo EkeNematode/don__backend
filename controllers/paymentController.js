@@ -3,13 +3,15 @@ const Payment = require("../models/paymentModel");
 
 const createPayment = expressAsyncHandler(async (req, res) => {
   try {
-    const { amount, username } = req.body;
+    const { amount, username, accountNumber, bankName } = req.body;
     if (!amount || !username) {
       return res.status(400).json({ message: "Please fill in all fields." });
     } else {
       const newPayment = new Payment({
         amount,
         username,
+        accountNumber,
+        bankName,
       });
       newPayment.save().then((payment) => {
         res.json(newPayment);
