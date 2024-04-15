@@ -4,8 +4,15 @@ const Auth = require("../models/authModel");
 
 const createOrder = expressAsyncHandler(async (req, res) => {
   try {
-    const { vendorId, food, total, username, userphone, useruniversity } =
-      req.body;
+    const {
+      vendorId,
+      food,
+      total,
+      username,
+      userphone,
+      useruniversity,
+      location,
+    } = req.body;
     const user = await req.user;
     console.log(vendorId);
     if (
@@ -14,7 +21,8 @@ const createOrder = expressAsyncHandler(async (req, res) => {
       !total ||
       !username ||
       !userphone ||
-      !useruniversity
+      !useruniversity ||
+      !location
     ) {
       return res.status(400).json({ message: "Please fill in all fields." });
     } else {
@@ -35,6 +43,7 @@ const createOrder = expressAsyncHandler(async (req, res) => {
         username,
         userphone,
         useruniversity,
+        location,
       });
       newOrder.save().then((order) => {
         res.json({
@@ -46,6 +55,7 @@ const createOrder = expressAsyncHandler(async (req, res) => {
           username: order.username,
           userphone: order.userphone,
           useruniversity: order.useruniversity,
+          location: order.location,
         });
       });
     }

@@ -19,6 +19,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    location: {
+      type: String,
+      required: true,
+    },
     vendorId: {
       type: String,
       required: true,

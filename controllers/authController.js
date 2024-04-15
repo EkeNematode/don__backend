@@ -58,6 +58,11 @@ exports.register = expressAsyncHandler((req, res) => {
   }
 });
 
+//  get user details
+exports.getUser = async (req, res) => {
+  res.status(200).json(req.user);
+};
+
 // Login
 exports.login = async (req, res) => {
   try {
