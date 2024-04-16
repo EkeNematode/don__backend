@@ -60,7 +60,21 @@ exports.register = expressAsyncHandler((req, res) => {
 
 //  get user details
 exports.getUser = async (req, res) => {
-  res.status(200).json(req.user);
+  const user = req.user;
+  res.status(200).json({
+    _id: user._id,
+    email: user.email,
+    username: user.username,
+    phone: user.phone,
+    university: user.university,
+    role: user.role,
+    balance: user.balance,
+    available: user.available,
+    restaurantName: user.restaurantName,
+    restaurantMainImage: user.restaurantMainImage,
+    restaurantBackgroundImage: user.restaurantBackgroundImage,
+    token: generateToken(user._id),
+  });
 };
 
 // Login
