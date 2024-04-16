@@ -23,7 +23,7 @@ router.post("/register", register);
 router.post("/login", login);
 router.get("/get-filtered-user", getFilteredUserByRole);
 router.get("/me", protect, getUser);
-router.post("/logout", protect, logout);
+router.get("/logout", protect, logout);
 router.patch("/update-balance", protect, updateBalance);
 router.patch("/deduct-balance", protect, deductBalance);
 router.patch("/update-vendor-availability", protect, updateVendorAvailability);

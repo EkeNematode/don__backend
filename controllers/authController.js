@@ -272,7 +272,12 @@ exports.updateVendorAvailability = expressAsyncHandler(async (req, res) => {
 });
 
 exports.logout = expressAsyncHandler(async (req, res) => {
-  res.status(200).json("logout successful");
+  try {
+    console.log("lohsj");
+    res.status(200).json("logout successful");
+  } catch (error) {
+    res.status(400).json("Shii happen");
+  }
 });
 
 const generateToken = (id) => {
