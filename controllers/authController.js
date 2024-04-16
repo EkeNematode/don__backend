@@ -62,7 +62,7 @@ exports.register = expressAsyncHandler((req, res) => {
 exports.getUser = async (req, res) => {
   const user = req.user;
   res.status(200).json({
-    _id: user._id,
+    id: user._id,
     email: user.email,
     username: user.username,
     phone: user.phone,
