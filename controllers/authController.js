@@ -271,6 +271,10 @@ exports.updateVendorAvailability = expressAsyncHandler(async (req, res) => {
   }
 });
 
+exports.logout = expressAsyncHandler(async (req, res) => {
+  res.status(200).json("logout successful");
+});
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
