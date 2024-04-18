@@ -4,6 +4,7 @@ const University = require("../models/universityModel");
 // create university
 const createUniversity = expressAsyncHandler(async (req, res) => {
   try {
+    console.log("clicked");
     const { university } = req.body;
     if (!university) {
       return res.status(400).json({ message: "Please fill in all fields." });
@@ -12,7 +13,7 @@ const createUniversity = expressAsyncHandler(async (req, res) => {
       university,
     });
     res.status(201).json({
-      id: newUniversity._id,
+      _id: newUniversity._id,
       university: newUniversity.university,
     });
   } catch (error) {
