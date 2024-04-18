@@ -20,6 +20,7 @@ app.use("/restaurant", require("./routes/restaurantRoutes"));
 app.use("/category", require("./routes/categoriesRoutes"));
 app.use("/order", require("./routes/orderRoutes"));
 app.use("/pay", require("./routes/paymentRoutes"));
+app.use("/university", require("./routes/universityRoutes"));
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

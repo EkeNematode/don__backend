@@ -90,20 +90,39 @@ const getOrderForCLients = expressAsyncHandler(async (req, res) => {
 
 //update order status
 const updateOrderStatus = expressAsyncHandler(async (req, res) => {
+  console.log(req.user.id, "id");
   try {
+    const userId = req.user.id;
     const { status, orderId } = req.query;
     console.log(status, orderId);
     if (!status || !orderId) {
       return res.status(400).json({ message: "Please fill in all fields." });
     }
+    // return user money if order is Cancelled
     const order = await Model.findByIdAndUpdate(
       orderId,
       { status },
       { new: true }
     );
+    if (status == "Cancelled") {
+      await Auth.findByIdAndUpdate(req.user.id, {
+        balance: req.user.balance - order.total,
+      });
+      const buyer = await Auth.findById(order.user);
+      console.log(buyer, "buyer");
+      console.log(order.total, "tots");
+      await Auth.findByIdAndUpdate(
+        order.user,
+        {
+          balance: buyer.balance + order.total,
+        },
+        { new: true }
+      );
+    }
+    console.log(order.user, "user");
     res.status(200).json(order);
   } catch (error) {
-    console.log("It's us not you");
+    console.log(error.message);
     res.status(500).json({ message: "It's us not you" });
   }
 });
